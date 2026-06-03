@@ -15,6 +15,7 @@ type Props = {
   l: number
   reelIndex: number
   rowIndex: number
+  topOffset: number
   isHighlighted: boolean
   isSelected: boolean
   onMouseDown: (reel: number, row: number) => void
@@ -24,12 +25,12 @@ type Props = {
 
 export function Cell({
   id, bt, w, l,
-  reelIndex, rowIndex,
+  reelIndex, rowIndex, topOffset,
   isHighlighted, isSelected,
   onMouseDown, onMouseEnter, onMouseUp,
 }: Props) {
   const left = reelIndex * (CELL_W + GAP)
-  const top = rowIndex * (CELL_H + GAP)
+  const top = topOffset + rowIndex * (CELL_H + GAP)
   const width = w * CELL_W + (w - 1) * GAP
   const height = l * CELL_H + (l - 1) * GAP
 

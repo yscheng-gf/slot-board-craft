@@ -1,5 +1,5 @@
 // frontend/src/App.tsx
-import { useState, useCallback, useEffect } from 'react'
+import { useState, useCallback, useEffect, useLayoutEffect, useRef } from 'react'
 import { useGrid } from './hooks/useGrid'
 import { useDrag } from './hooks/useDrag'
 import { generateJson } from './utils/generateJson'
@@ -29,6 +29,30 @@ export default function App() {
   const { isDragging, startDrag, updateDrag, endDrag, isHighlighted } = useDrag()
 
   const json = generateJson(grid)
+
+  // Auto-scale: 讓盤面填滿左側面板
+  const panelRef = useRef<HTMLDivElement>(null)
+  const gridRef = useRef<HTMLDivElement>(null)
+  const [scale, setScale] = useState(1)
+
+  useLayoutEffect(() => {
+    const panel = panelRef.current
+    const gridEl = gridRef.current
+    if (!panel || !gridEl) return
+    const update = () => {
+      const padding = 48 // p-6 = 24px × 2
+      const availW = panel.clientWidth - padding
+      const availH = panel.clientHeight - padding
+      const natW = gridEl.offsetWidth
+      const natH = gridEl.offsetHeight
+      if (natW === 0 || natH === 0) return
+      setScale(Math.min(availW / natW, availH / natH))
+    }
+    const ro = new ResizeObserver(update)
+    ro.observe(panel)
+    update()
+    return () => ro.disconnect()
+  }, [layout])
 
   // 載入設定
   useEffect(() => {
@@ -93,16 +117,18 @@ export default function App() {
       />
       <div className="flex flex-1 min-h-0">
         {/* 左側盤面 */}
-        <div className="flex-1 overflow-auto p-6 flex items-center justify-center">
-          <Grid
-            grid={grid}
-            layout={layout}
-            isHighlighted={isHighlighted}
-            selectedCell={cursorInfo}
-            onMouseDown={handleMouseDown}
-            onMouseEnter={handleMouseEnter}
-            onMouseUp={handleMouseUp}
-          />
+        <div ref={panelRef} className="flex-1 overflow-hidden p-6 flex items-center justify-center">
+          <div ref={gridRef} style={{ transform: `scale(${scale})`, transformOrigin: 'center center' }}>
+            <Grid
+              grid={grid}
+              layout={layout}
+              isHighlighted={isHighlighted}
+              selectedCell={cursorInfo}
+              onMouseDown={handleMouseDown}
+              onMouseEnter={handleMouseEnter}
+              onMouseUp={handleMouseUp}
+            />
+          </div>
         </div>
         {/* 右側面板 */}
         <div className="w-72 flex-shrink-0">

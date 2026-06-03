@@ -38,14 +38,15 @@ export function Grid({
       onMouseLeave={onMouseUp}
     >
       {/* Layer 1: hit targets */}
-      {layout.map((rows, reelIdx) =>
-        Array.from({ length: rows }, (_, rowIdx) => (
+      {layout.map((rows, reelIdx) => {
+        const topOffset = ((maxRows - rows) * (CELL_H + GAP)) / 2
+        return Array.from({ length: rows }, (_, rowIdx) => (
           <div
             key={`hit-${reelIdx}-${rowIdx}`}
             style={{
               position: 'absolute',
               left: reelIdx * (CELL_W + GAP),
-              top: rowIdx * (CELL_H + GAP),
+              top: topOffset + rowIdx * (CELL_H + GAP),
               width: CELL_W,
               height: CELL_H,
               zIndex: 1,
@@ -58,11 +59,12 @@ export function Grid({
             onMouseUp={onMouseUp}
           />
         ))
-      )}
+      })}
 
       {/* Layer 2: visible cells */}
-      {grid.map((reel, reelIdx) =>
-        reel.map((cell, rowIdx) =>
+      {grid.map((reel, reelIdx) => {
+        const topOffset = ((maxRows - reel.length) * (CELL_H + GAP)) / 2
+        return reel.map((cell, rowIdx) =>
           cell.id !== 0 ? (
             <Cell
               key={`cell-${reelIdx}-${rowIdx}`}
@@ -72,6 +74,7 @@ export function Grid({
               l={cell.l}
               reelIndex={reelIdx}
               rowIndex={rowIdx}
+              topOffset={topOffset}
               isHighlighted={isHighlighted(reelIdx, rowIdx)}
               isSelected={isSelected(reelIdx, rowIdx)}
               onMouseDown={onMouseDown}
@@ -80,7 +83,7 @@ export function Grid({
             />
           ) : null
         )
-      )}
+      })}
     </div>
   )
 }
