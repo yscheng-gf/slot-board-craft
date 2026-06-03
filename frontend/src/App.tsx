@@ -71,7 +71,7 @@ export default function App() {
   }, [endDrag, placeSymbol, selectedId, selectedBt])
 
   const handleAddFavorite = useCallback((id: number) => {
-    setFavoriteIds((prev) => [...prev, id])
+    setFavoriteIds((prev) => [...prev, id].sort((a, b) => a - b))
   }, [])
 
   const handleRemoveFavorite = useCallback((id: number) => {
@@ -93,7 +93,7 @@ export default function App() {
       />
       <div className="flex flex-1 min-h-0">
         {/* 左側盤面 */}
-        <div className="flex-1 overflow-auto p-6 flex items-start justify-start">
+        <div className="flex-1 overflow-auto p-6 flex items-center justify-center">
           <Grid
             grid={grid}
             layout={layout}
