@@ -1,0 +1,137 @@
+<h2>整體 UI 佈局偏好？</h2>
+<p class="subtitle">Wails GUI 工具的主要畫面該怎麼排列？</p>
+
+<div class="cards">
+
+  <div class="card" data-choice="a" onclick="toggleSelect(this)">
+    <div class="card-image">
+      <div style="display:flex;gap:6px;padding:10px;background:#1a1a2e;border-radius:6px;font-size:11px;color:#ccc">
+        <div style="flex:1;background:#16213e;border-radius:4px;padding:8px">
+          <div style="color:#888;margin-bottom:6px;font-size:10px">⚙️ 工具列</div>
+          <div style="background:#0f3460;border-radius:3px;padding:4px;margin-bottom:4px;font-size:10px">ID: 0</div>
+          <div style="background:#0f3460;border-radius:3px;padding:4px;margin-bottom:4px;font-size:10px">BT: 0</div>
+          <div style="background:#0f3460;border-radius:3px;padding:4px;margin-bottom:4px;font-size:10px">W: 1</div>
+          <div style="background:#0f3460;border-radius:3px;padding:4px;font-size:10px">L: 1</div>
+        </div>
+        <div style="flex:3;background:#16213e;border-radius:4px;padding:8px">
+          <div style="color:#888;margin-bottom:6px;font-size:10px">🎰 盤面</div>
+          <div style="display:flex;gap:3px">
+            <div style="display:flex;flex-direction:column;gap:3px">
+              <div style="width:22px;height:18px;background:#e94560;border-radius:2px;font-size:8px;display:flex;align-items:center;justify-content:center">0</div>
+              <div style="width:22px;height:18px;background:#0f3460;border-radius:2px;font-size:8px;display:flex;align-items:center;justify-content:center">92</div>
+              <div style="width:22px;height:18px;background:#0f3460;border-radius:2px;font-size:8px;display:flex;align-items:center;justify-content:center">1</div>
+            </div>
+            <div style="display:flex;flex-direction:column;gap:3px">
+              <div style="width:22px;height:18px;background:#0f3460;border-radius:2px;font-size:8px;display:flex;align-items:center;justify-content:center">2</div>
+              <div style="width:22px;height:18px;background:#0f3460;border-radius:2px;font-size:8px;display:flex;align-items:center;justify-content:center">3</div>
+              <div style="width:22px;height:18px;background:#0f3460;border-radius:2px;font-size:8px;display:flex;align-items:center;justify-content:center">0</div>
+              <div style="width:22px;height:18px;background:#0f3460;border-radius:2px;font-size:8px;display:flex;align-items:center;justify-content:center">4</div>
+            </div>
+            <div style="display:flex;flex-direction:column;gap:3px">
+              <div style="width:22px;height:18px;background:#0f3460;border-radius:2px;font-size:8px;display:flex;align-items:center;justify-content:center">1</div>
+              <div style="width:22px;height:18px;background:#0f3460;border-radius:2px;font-size:8px;display:flex;align-items:center;justify-content:center">2</div>
+              <div style="width:22px;height:18px;background:#0f3460;border-radius:2px;font-size:8px;display:flex;align-items:center;justify-content:center">0</div>
+              <div style="width:22px;height:18px;background:#0f3460;border-radius:2px;font-size:8px;display:flex;align-items:center;justify-content:center">3</div>
+              <div style="width:22px;height:18px;background:#0f3460;border-radius:2px;font-size:8px;display:flex;align-items:center;justify-content:center">1</div>
+            </div>
+          </div>
+        </div>
+        <div style="flex:1.5;background:#16213e;border-radius:4px;padding:8px">
+          <div style="color:#888;margin-bottom:6px;font-size:10px">📄 預覽/JSON</div>
+          <div style="background:#0f3460;border-radius:3px;padding:4px;font-size:9px;color:#4fc3f7;font-family:monospace">{"id":0,"bt":0...}</div>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>A - 左工具 + 中盤面 + 右預覽</h3>
+      <p>三欄式。左側放參數設定，中間是主盤面，右側顯示 JSON 即時預覽。空間分配清楚。</p>
+    </div>
+  </div>
+
+  <div class="card" data-choice="b" onclick="toggleSelect(this)">
+    <div class="card-image">
+      <div style="display:flex;flex-direction:column;gap:6px;padding:10px;background:#1a1a2e;border-radius:6px;font-size:11px;color:#ccc">
+        <div style="background:#16213e;border-radius:4px;padding:8px;display:flex;gap:8px;align-items:center">
+          <span style="font-size:10px;color:#888">⚙️</span>
+          <div style="background:#0f3460;border-radius:3px;padding:3px 8px;font-size:10px">ID: 0</div>
+          <div style="background:#0f3460;border-radius:3px;padding:3px 8px;font-size:10px">BT: 0</div>
+          <div style="background:#0f3460;border-radius:3px;padding:3px 8px;font-size:10px">W: 1</div>
+          <div style="background:#0f3460;border-radius:3px;padding:3px 8px;font-size:10px">L: 1</div>
+          <div style="margin-left:auto;background:#e94560;border-radius:3px;padding:3px 8px;font-size:10px">匯出 JSON</div>
+        </div>
+        <div style="flex:1;background:#16213e;border-radius:4px;padding:12px;display:flex;justify-content:center">
+          <div style="display:flex;gap:4px">
+            <div style="display:flex;flex-direction:column;gap:3px">
+              <div style="width:30px;height:24px;background:#e94560;border-radius:3px;font-size:9px;display:flex;align-items:center;justify-content:center">0</div>
+              <div style="width:30px;height:24px;background:#0f3460;border-radius:3px;font-size:9px;display:flex;align-items:center;justify-content:center">92</div>
+              <div style="width:30px;height:24px;background:#0f3460;border-radius:3px;font-size:9px;display:flex;align-items:center;justify-content:center">1</div>
+            </div>
+            <div style="display:flex;flex-direction:column;gap:3px">
+              <div style="width:30px;height:24px;background:#0f3460;border-radius:3px;font-size:9px;display:flex;align-items:center;justify-content:center">2</div>
+              <div style="width:30px;height:24px;background:#0f3460;border-radius:3px;font-size:9px;display:flex;align-items:center;justify-content:center">3</div>
+              <div style="width:30px;height:24px;background:#0f3460;border-radius:3px;font-size:9px;display:flex;align-items:center;justify-content:center">0</div>
+              <div style="width:30px;height:24px;background:#0f3460;border-radius:3px;font-size:9px;display:flex;align-items:center;justify-content:center">4</div>
+            </div>
+            <div style="display:flex;flex-direction:column;gap:3px">
+              <div style="width:30px;height:24px;background:#0f3460;border-radius:3px;font-size:9px;display:flex;align-items:center;justify-content:center">1</div>
+              <div style="width:30px;height:24px;background:#0f3460;border-radius:3px;font-size:9px;display:flex;align-items:center;justify-content:center">2</div>
+              <div style="width:30px;height:24px;background:#0f3460;border-radius:3px;font-size:9px;display:flex;align-items:center;justify-content:center">0</div>
+              <div style="width:30px;height:24px;background:#0f3460;border-radius:3px;font-size:9px;display:flex;align-items:center;justify-content:center">3</div>
+              <div style="width:30px;height:24px;background:#0f3460;border-radius:3px;font-size:9px;display:flex;align-items:center;justify-content:center">1</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>B - 上工具列 + 大盤面</h3>
+      <p>兩區塊。頂部是工具列（參數 + 按鈕），下方是盡可能大的盤面區域。JSON 用彈窗或底部展開顯示。</p>
+    </div>
+  </div>
+
+  <div class="card" data-choice="c" onclick="toggleSelect(this)">
+    <div class="card-image">
+      <div style="display:flex;flex-direction:column;gap:6px;padding:10px;background:#1a1a2e;border-radius:6px;font-size:11px;color:#ccc">
+        <div style="background:#16213e;border-radius:4px;padding:6px 8px;display:flex;gap:8px;align-items:center">
+          <div style="background:#0f3460;border-radius:3px;padding:3px 8px;font-size:10px">ID: 0</div>
+          <div style="background:#0f3460;border-radius:3px;padding:3px 8px;font-size:10px">BT: 0</div>
+          <div style="background:#0f3460;border-radius:3px;padding:3px 8px;font-size:10px">W: 1  L: 1</div>
+          <div style="margin-left:auto;background:#e94560;border-radius:3px;padding:3px 8px;font-size:10px">複製 JSON</div>
+        </div>
+        <div style="display:flex;gap:6px;flex:1">
+          <div style="flex:2;background:#16213e;border-radius:4px;padding:8px;display:flex;justify-content:center;align-items:center">
+            <div style="display:flex;gap:3px">
+              <div style="display:flex;flex-direction:column;gap:3px">
+                <div style="width:26px;height:22px;background:#e94560;border-radius:3px;font-size:8px;display:flex;align-items:center;justify-content:center">0</div>
+                <div style="width:26px;height:22px;background:#0f3460;border-radius:3px;font-size:8px;display:flex;align-items:center;justify-content:center">92</div>
+                <div style="width:26px;height:22px;background:#0f3460;border-radius:3px;font-size:8px;display:flex;align-items:center;justify-content:center">1</div>
+              </div>
+              <div style="display:flex;flex-direction:column;gap:3px">
+                <div style="width:26px;height:22px;background:#0f3460;border-radius:3px;font-size:8px;display:flex;align-items:center;justify-content:center">2</div>
+                <div style="width:26px;height:22px;background:#0f3460;border-radius:3px;font-size:8px;display:flex;align-items:center;justify-content:center">3</div>
+                <div style="width:26px;height:22px;background:#0f3460;border-radius:3px;font-size:8px;display:flex;align-items:center;justify-content:center">0</div>
+                <div style="width:26px;height:22px;background:#0f3460;border-radius:3px;font-size:8px;display:flex;align-items:center;justify-content:center">4</div>
+              </div>
+            </div>
+          </div>
+          <div style="flex:1;display:flex;flex-direction:column;gap:4px">
+            <div style="background:#16213e;border-radius:4px;padding:6px">
+              <div style="color:#888;font-size:9px;margin-bottom:3px">游標位置</div>
+              <div style="color:#4fc3f7;font-size:10px">Reel 0, Row 0</div>
+              <div style="font-size:9px;margin-top:2px">ID:0 BT:0 W:1 L:1</div>
+            </div>
+            <div style="background:#16213e;border-radius:4px;padding:6px;flex:1">
+              <div style="color:#888;font-size:9px;margin-bottom:3px">JSON 輸出</div>
+              <div style="color:#4fc3f7;font-size:9px;font-family:monospace;word-break:break-all">{"main_game":...}</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>C - 上工具列 + 左盤面 + 右資訊面板</h3>
+      <p>頂部工具列，左側盤面，右側顯示游標位置資訊與 JSON 即時輸出。類似 IDE 佈局。</p>
+    </div>
+  </div>
+
+</div>

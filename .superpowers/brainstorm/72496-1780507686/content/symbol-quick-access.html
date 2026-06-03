@@ -1,0 +1,80 @@
+<h2>快速選取 Symbol ID 的方式？</h2>
+<p class="subtitle">右側工具列 + 自由輸入，快速切換常用 ID 的 UI 方案</p>
+
+<div class="cards">
+
+  <div class="card" data-choice="a" onclick="toggleSelect(this)">
+    <div class="card-image">
+      <div style="background:#1a1a2e;border-radius:6px;padding:10px;font-size:11px;color:#ccc">
+        <div style="color:#888;font-size:10px;margin-bottom:6px">⚡ 常用 ID（可自訂）</div>
+        <div style="display:flex;flex-wrap:wrap;gap:4px;margin-bottom:8px">
+          <div style="background:#e94560;border-radius:4px;padding:3px 8px;font-size:11px;cursor:pointer">0</div>
+          <div style="background:#0f3460;border-radius:4px;padding:3px 8px;font-size:11px;cursor:pointer">1</div>
+          <div style="background:#0f3460;border-radius:4px;padding:3px 8px;font-size:11px;cursor:pointer">2</div>
+          <div style="background:#0f3460;border-radius:4px;padding:3px 8px;font-size:11px;cursor:pointer">3</div>
+          <div style="background:#0f3460;border-radius:4px;padding:3px 8px;font-size:11px;cursor:pointer">11</div>
+          <div style="background:#0f3460;border-radius:4px;padding:3px 8px;font-size:11px;cursor:pointer">91</div>
+          <div style="background:#0f3460;border-radius:4px;padding:3px 8px;font-size:11px;cursor:pointer">92</div>
+          <div style="background:#333;border-radius:4px;padding:3px 8px;font-size:11px;cursor:pointer;border:1px dashed #555">+ 新增</div>
+        </div>
+        <div style="color:#888;font-size:10px;margin-bottom:4px">或直接輸入</div>
+        <div style="background:#0f3460;border-radius:4px;padding:4px 8px;font-size:11px;display:flex;align-items:center;gap:6px">
+          <span style="color:#888">ID:</span>
+          <span style="color:#4fc3f7">14_</span>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>A — 固定快速鈕 + 輸入框</h3>
+      <p>上方顯示可自訂的常用 ID chip，點一下即切換為該 ID。下方保留輸入框輸入任意值。可自行新增/刪除常用清單。</p>
+    </div>
+  </div>
+
+  <div class="card" data-choice="b" onclick="toggleSelect(this)">
+    <div class="card-image">
+      <div style="background:#1a1a2e;border-radius:6px;padding:10px;font-size:11px;color:#ccc">
+        <div style="color:#888;font-size:10px;margin-bottom:6px">🕐 最近使用</div>
+        <div style="display:flex;flex-wrap:wrap;gap:4px;margin-bottom:8px">
+          <div style="background:#e94560;border-radius:4px;padding:3px 8px;font-size:11px">14</div>
+          <div style="background:#333;border-radius:4px;padding:3px 8px;font-size:11px">92</div>
+          <div style="background:#333;border-radius:4px;padding:3px 8px;font-size:11px">3</div>
+          <div style="background:#333;border-radius:4px;padding:3px 8px;font-size:11px">0</div>
+          <div style="background:#333;border-radius:4px;padding:3px 8px;font-size:11px">11</div>
+        </div>
+        <div style="color:#888;font-size:10px;margin-bottom:4px">輸入任意 ID</div>
+        <div style="background:#0f3460;border-radius:4px;padding:4px 8px;font-size:11px;display:flex;align-items:center;gap:6px">
+          <span style="color:#888">ID:</span>
+          <span style="color:#4fc3f7">14_</span>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>B — 歷史記錄 chip + 輸入框</h3>
+      <p>自動記錄最近用過的 ID，顯示在輸入框上方。不需要手動維護清單，用過的自動出現，最多顯示 N 個。</p>
+    </div>
+  </div>
+
+  <div class="card" data-choice="c" onclick="toggleSelect(this)">
+    <div class="card-image">
+      <div style="background:#1a1a2e;border-radius:6px;padding:10px;font-size:11px;color:#ccc">
+        <div style="color:#888;font-size:10px;margin-bottom:4px">輸入 ID（Enter 確認）</div>
+        <div style="background:#0f3460;border-radius:4px;padding:4px 8px;font-size:11px;display:flex;align-items:center;gap:6px;margin-bottom:6px">
+          <span style="color:#888">ID:</span>
+          <span style="color:#4fc3f7">14_</span>
+        </div>
+        <div style="color:#888;font-size:10px;margin-bottom:4px">下拉建議（autocomplete）</div>
+        <div style="background:#16213e;border-radius:4px;overflow:hidden">
+          <div style="padding:3px 8px;background:#e94560;font-size:10px">14 — Wild</div>
+          <div style="padding:3px 8px;font-size:10px;color:#888">1 — Cherry</div>
+          <div style="padding:3px 8px;font-size:10px;color:#888">11 — Scatter</div>
+          <div style="padding:3px 8px;font-size:10px;color:#888">91 — Bonus</div>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>C — 輸入框 + Autocomplete 下拉</h3>
+      <p>輸入時跳出下拉清單（支援 ID 或名稱搜尋），從設定檔或內建清單載入候選項目，選完即切換。</p>
+    </div>
+  </div>
+
+</div>
