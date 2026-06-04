@@ -1,7 +1,7 @@
 {
   "$schema": "https://wails.io/schemas/config.v2.json",
-  "name": "slot-board-craft",
-  "outputfilename": "slot-board-craft",
+  "name": "Slot Board Craft",
+  "outputfilename": "Slot Board Craft",
   "info": {
     "productName": "Slot Board Craft"
   },
