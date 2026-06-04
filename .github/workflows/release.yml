@@ -25,16 +25,19 @@ jobs:
       - name: Build macOS (universal)
         run: wails build -platform darwin/universal
 
+      - name: Install create-dmg
+        run: brew install create-dmg
+
       - name: Create DMG
         run: |
-          mkdir -p dmg_staging
-          cp -r "build/bin/Slot Board Craft.app" dmg_staging/
-          ln -s /Applications "dmg_staging/Applications"
-          hdiutil create \
-            -volname "Slot Board Craft" \
-            -srcfolder dmg_staging \
-            -ov -format UDZO \
-            "SlotBoardCraft-${{ github.ref_name }}-macOS.dmg"
+          create-dmg \
+            --volname "Slot Board Craft" \
+            --window-pos 200 120 \
+            --window-size 600 400 \
+            --icon-size 100 \
+            --app-drop-link 400 185 \
+            "SlotBoardCraft-${{ github.ref_name }}-macOS.dmg" \
+            "build/bin/Slot Board Craft.app"
 
       - name: Upload macOS DMG
         uses: actions/upload-artifact@v4
