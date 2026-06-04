@@ -25,7 +25,7 @@ export default function App() {
   const [favoriteIds, setFavoriteIds] = useState<number[]>([0, 1, 2, 3, 11, 91, 92])
   const [cursorInfo, setCursorInfo] = useState<CursorInfo>(null)
 
-  const { layout, grid, rebuildGrid, placeSymbol } = useGrid(parseLayout(DEFAULT_LAYOUT_STR))
+  const { layout, grid, rebuildGrid, placeSymbol, randomizeBoard } = useGrid(parseLayout(DEFAULT_LAYOUT_STR))
   const { isDragging, startDrag, updateDrag, endDrag, isHighlighted } = useDrag()
 
   const json = generateJson(grid)
@@ -102,6 +102,10 @@ export default function App() {
     setFavoriteIds((prev) => prev.filter((f) => f !== id))
   }, [])
 
+  const handleRandomize = useCallback(() => {
+    randomizeBoard(favoriteIds)
+  }, [randomizeBoard, favoriteIds])
+
   return (
     <div className="flex flex-col h-screen bg-gray-950 text-gray-100 overflow-hidden">
       <Toolbar
@@ -114,6 +118,7 @@ export default function App() {
         onBtChange={setSelectedBt}
         onAddFavorite={handleAddFavorite}
         onRemoveFavorite={handleRemoveFavorite}
+        onRandomize={handleRandomize}
       />
       <div className="flex flex-1 min-h-0">
         {/* 左側盤面 */}

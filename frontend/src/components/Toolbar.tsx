@@ -10,6 +10,7 @@ type Props = {
   onBtChange: (bt: number) => void
   onAddFavorite: (id: number) => void
   onRemoveFavorite: (id: number) => void
+  onRandomize: () => void
 }
 
 export function Toolbar({
@@ -22,6 +23,7 @@ export function Toolbar({
   onBtChange,
   onAddFavorite,
   onRemoveFavorite,
+  onRandomize,
 }: Props) {
   const [idInput, setIdInput] = useState('')
   const [addInput, setAddInput] = useState('')
@@ -120,6 +122,15 @@ export function Toolbar({
           className="bg-gray-800 text-gray-100 text-sm px-2 py-1 rounded border border-gray-600 w-12 font-mono text-center"
         />
       </div>
+
+      {/* 隨機 */}
+      <button
+        onClick={onRandomize}
+        disabled={favoriteIds.length === 0}
+        className="px-3 py-1 rounded border text-xs font-mono bg-gray-800 border-gray-600 text-gray-300 hover:bg-gray-700 disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
+      >
+        隨機
+      </button>
     </div>
   )
 }
