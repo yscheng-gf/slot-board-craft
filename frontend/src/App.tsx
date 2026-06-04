@@ -104,6 +104,7 @@ export default function App() {
 
   const handleRandomize = useCallback(() => {
     randomizeBoard(favoriteIds)
+    setCursorInfo(null)
   }, [randomizeBoard, favoriteIds])
 
   return (

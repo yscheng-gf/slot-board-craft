@@ -3,6 +3,7 @@ export const CELL_H = 44
 export const GAP = 4
 
 function idToColor(id: number): string {
+  if (id === 0) return '#374151'
   if (id === 92) return '#1f2937'
   const hue = (id * 137.508) % 360
   return `hsl(${hue.toFixed(1)}, 55%, 28%)`

@@ -49,11 +49,12 @@ export function useGrid(initialLayout: number[] = [3, 4, 5, 5, 4, 3]) {
   )
 
   const randomizeBoard = useCallback((favoriteIds: number[]) => {
-    if (favoriteIds.length === 0) return
+    const validIds = favoriteIds.filter((id) => id !== 0)
+    if (validIds.length === 0) return
     setGrid((prev) =>
       prev.map((reel) =>
         reel.map(() => ({
-          id: favoriteIds[Math.floor(Math.random() * favoriteIds.length)],
+          id: validIds[Math.floor(Math.random() * validIds.length)],
           bt: 0,
           w: 1,
           l: 1,
