@@ -27,9 +27,12 @@ jobs:
 
       - name: Create DMG
         run: |
+          mkdir -p dmg_staging
+          cp -r "build/bin/Slot Board Craft.app" dmg_staging/
+          ln -s /Applications "dmg_staging/Applications"
           hdiutil create \
             -volname "Slot Board Craft" \
-            -srcfolder "build/bin/Slot Board Craft.app" \
+            -srcfolder dmg_staging \
             -ov -format UDZO \
             "SlotBoardCraft-${{ github.ref_name }}-macOS.dmg"
 
