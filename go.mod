@@ -1,4 +1,4 @@
-module slot-board-utils
+module slot-board-craft
 
 go 1.23.0
 
