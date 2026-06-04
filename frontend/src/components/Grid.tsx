@@ -8,9 +8,11 @@ type Props = {
   layout: number[]
   isHighlighted: (reel: number, row: number) => boolean
   selectedCell: CursorInfo
+  hoveredCell: { reelIndex: number; rowIndex: number } | null
   onMouseDown: (reel: number, row: number) => void
   onMouseEnter: (reel: number, row: number) => void
   onMouseUp: () => void
+  onHoverLeave: () => void
 }
 
 export function Grid({
@@ -18,9 +20,11 @@ export function Grid({
   layout,
   isHighlighted,
   selectedCell,
+  hoveredCell,
   onMouseDown,
   onMouseEnter,
   onMouseUp,
+  onHoverLeave,
 }: Props) {
   const maxRows = Math.max(...layout)
   const containerWidth = layout.length * (CELL_W + GAP) - GAP
@@ -32,10 +36,16 @@ export function Grid({
     [selectedCell]
   )
 
+  const isHovered = useCallback(
+    (reel: number, row: number) =>
+      hoveredCell?.reelIndex === reel && hoveredCell?.rowIndex === row,
+    [hoveredCell]
+  )
+
   return (
     <div
       style={{ position: 'relative', width: containerWidth, height: containerHeight }}
-      onMouseLeave={onMouseUp}
+      onMouseLeave={() => { onMouseUp(); onHoverLeave() }}
     >
       {/* Layer 1: hit targets */}
       {layout.map((rows, reelIdx) => {
@@ -76,6 +86,7 @@ export function Grid({
               rowIndex={rowIdx}
               topOffset={topOffset}
               isHighlighted={isHighlighted(reelIdx, rowIdx)}
+              isHovered={isHovered(reelIdx, rowIdx)}
               isSelected={isSelected(reelIdx, rowIdx)}
               onMouseDown={onMouseDown}
               onMouseEnter={onMouseEnter}
