@@ -1,0 +1,99 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+jobs:
+  build-macos:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-go@v5
+        with:
+          go-version: '1.26'
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install Wails
+        run: go install github.com/wailsapp/wails/v2/cmd/wails@v2.12.0
+
+      - name: Build macOS (universal)
+        run: wails build -platform darwin/universal
+
+      - name: Create DMG
+        run: |
+          hdiutil create \
+            -volname "Slot Board Craft" \
+            -srcfolder "build/bin/Slot Board Craft.app" \
+            -ov -format UDZO \
+            "SlotBoardCraft-${{ github.ref_name }}-macOS.dmg"
+
+      - name: Upload macOS DMG
+        uses: actions/upload-artifact@v4
+        with:
+          name: macos-dmg
+          path: "SlotBoardCraft-${{ github.ref_name }}-macOS.dmg"
+
+  build-windows:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Add mingw to PATH
+        run: echo "C:\msys64\mingw64\bin" | Out-File -FilePath $env:GITHUB_PATH -Encoding utf8 -Append
+
+      - uses: actions/setup-go@v5
+        with:
+          go-version: '1.26'
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install Wails
+        run: go install github.com/wailsapp/wails/v2/cmd/wails@v2.12.0
+
+      - name: Build Windows
+        run: wails build -platform windows/amd64
+
+      - name: Create ZIP
+        run: |
+          Compress-Archive `
+            -Path "build\bin\Slot Board Craft.exe" `
+            -DestinationPath "SlotBoardCraft-${{ github.ref_name }}-Windows.zip"
+
+      - name: Upload Windows EXE
+        uses: actions/upload-artifact@v4
+        with:
+          name: windows-exe
+          path: "build/bin/Slot Board Craft.exe"
+
+      - name: Upload Windows ZIP
+        uses: actions/upload-artifact@v4
+        with:
+          name: windows-zip
+          path: "SlotBoardCraft-${{ github.ref_name }}-Windows.zip"
+
+  release:
+    needs: [build-macos, build-windows]
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Download all artifacts
+        uses: actions/download-artifact@v4
+        with:
+          merge-multiple: true
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: |
+            SlotBoardCraft-*-macOS.dmg
+            Slot Board Craft.exe
+            SlotBoardCraft-*-Windows.zip
