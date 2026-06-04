@@ -48,5 +48,19 @@ export function useGrid(initialLayout: number[] = [3, 4, 5, 5, 4, 3]) {
     []
   )
 
-  return { layout, grid, rebuildGrid, placeSymbol }
+  const randomizeBoard = useCallback((favoriteIds: number[]) => {
+    if (favoriteIds.length === 0) return
+    setGrid((prev) =>
+      prev.map((reel) =>
+        reel.map(() => ({
+          id: favoriteIds[Math.floor(Math.random() * favoriteIds.length)],
+          bt: 0,
+          w: 1,
+          l: 1,
+        }))
+      )
+    )
+  }, [])
+
+  return { layout, grid, rebuildGrid, placeSymbol, randomizeBoard }
 }

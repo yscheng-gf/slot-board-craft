@@ -53,4 +53,22 @@ describe('useGrid', () => {
     })
     expect(result.current.grid[0][0].w).toBe(1)
   })
+
+  it('randomizeBoard 將每個格子換成 favoriteIds 中的某個 ID', () => {
+    const { result } = renderHook(() => useGrid([2, 3]))
+    act(() => {
+      result.current.randomizeBoard([1, 2, 3])
+    })
+    const allIds = result.current.grid.flatMap((reel) => reel.map((c) => c.id))
+    expect(allIds.every((id) => [1, 2, 3].includes(id))).toBe(true)
+  })
+
+  it('randomizeBoard 每格都是 bt=0, w=1, l=1', () => {
+    const { result } = renderHook(() => useGrid([2, 2]))
+    act(() => {
+      result.current.randomizeBoard([5])
+    })
+    const allCells = result.current.grid.flatMap((reel) => reel)
+    expect(allCells.every((c) => c.bt === 0 && c.w === 1 && c.l === 1)).toBe(true)
+  })
 })
