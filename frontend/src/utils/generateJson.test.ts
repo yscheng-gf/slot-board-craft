@@ -9,10 +9,10 @@ describe('generateJson', () => {
       [{ id: 92, bt: 0, w: 1, l: 1 }, { id: 92, bt: 0, w: 1, l: 1 }],
     ]
     const result = JSON.parse(generateJson(grid))
-    expect(result.main_game[0][0][0]).toMatchObject({ id: 92, l: 1, w: 1, i: 0 })
-    expect(result.main_game[0][0][1]).toMatchObject({ id: 92, l: 1, w: 1, i: 1 })
-    expect(result.main_game[0][1][0]).toMatchObject({ id: 92, l: 1, w: 1, i: 2 })
-    expect(result.main_game[0][1][1]).toMatchObject({ id: 92, l: 1, w: 1, i: 3 })
+    expect(result[0][0]).toMatchObject({ id: 92, l: 1, w: 1, i: 0 })
+    expect(result[0][1]).toMatchObject({ id: 92, l: 1, w: 1, i: 1 })
+    expect(result[1][0]).toMatchObject({ id: 92, l: 1, w: 1, i: 2 })
+    expect(result[1][1]).toMatchObject({ id: 92, l: 1, w: 1, i: 3 })
   })
 
   it('id=0 的格子輸出為 null', () => {
@@ -21,19 +21,19 @@ describe('generateJson', () => {
       [{ id: 0, bt: 0, w: 1, l: 1 }, { id: 92, bt: 0, w: 1, l: 1 }],
     ]
     const result = JSON.parse(generateJson(grid))
-    expect(result.main_game[0][1][0]).toBeNull()
+    expect(result[1][0]).toBeNull()
   })
 
   it('bt=0 時不輸出 bt 欄位', () => {
     const grid: Grid = [[{ id: 3, bt: 0, w: 1, l: 1 }]]
     const result = JSON.parse(generateJson(grid))
-    expect(result.main_game[0][0][0]).not.toHaveProperty('bt')
+    expect(result[0][0]).not.toHaveProperty('bt')
   })
 
   it('bt!=0 時輸出 bt 欄位', () => {
     const grid: Grid = [[{ id: 3, bt: 2, w: 1, l: 1 }]]
     const result = JSON.parse(generateJson(grid))
-    expect(result.main_game[0][0][0].bt).toBe(2)
+    expect(result[0][0].bt).toBe(2)
   })
 
   it('index 從左到右、從上到下遞增', () => {
@@ -42,17 +42,16 @@ describe('generateJson', () => {
       [{ id: 3, bt: 0, w: 1, l: 1 }, { id: 4, bt: 0, w: 1, l: 1 }],
     ]
     const result = JSON.parse(generateJson(grid))
-    expect(result.main_game[0][0][0].i).toBe(0)
-    expect(result.main_game[0][0][1].i).toBe(1)
-    expect(result.main_game[0][1][0].i).toBe(2)
-    expect(result.main_game[0][1][1].i).toBe(3)
+    expect(result[0][0].i).toBe(0)
+    expect(result[0][1].i).toBe(1)
+    expect(result[1][0].i).toBe(2)
+    expect(result[1][1].i).toBe(3)
   })
 
-  it('外層結構為 main_game > array > reelData', () => {
+  it('輸出為二維陣列', () => {
     const grid: Grid = [[{ id: 92, bt: 0, w: 1, l: 1 }]]
     const result = JSON.parse(generateJson(grid))
-    expect(result).toHaveProperty('main_game')
-    expect(Array.isArray(result.main_game)).toBe(true)
-    expect(Array.isArray(result.main_game[0])).toBe(true)
+    expect(Array.isArray(result)).toBe(true)
+    expect(Array.isArray(result[0])).toBe(true)
   })
 })

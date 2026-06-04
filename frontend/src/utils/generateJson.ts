@@ -23,5 +23,5 @@ export function generateJson(grid: Grid): string {
       }
     })
   )
-  return JSON.stringify({ main_game: [reelData] })
+  return JSON.stringify(reelData)
 }
