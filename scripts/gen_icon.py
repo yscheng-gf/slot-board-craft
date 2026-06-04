@@ -17,16 +17,18 @@ def gradient_bg(size: int) -> Image.Image:
         draw.line([(0, y), (size - 1, y)], fill=(r, g, b, 255))
     return img
 
-def draw_gold_border(draw: ImageDraw.ImageDraw, size: int) -> None:
-    margin, radius = 56, 110
-    for i in range(6):
-        alpha = int(255 - i * 38)
-        draw.rounded_rectangle(
-            [margin + i, margin + i, size - margin - i, size - margin - i],
-            radius=radius,
-            outline=(255, 200, 50, alpha),
-            width=1,
-        )
+def draw_radial_bg_glow(img: Image.Image) -> Image.Image:
+    """中央放射狀金色光暈，取代邊框效果"""
+    cx, cy = SIZE // 2, SIZE // 2
+    glow = Image.new('RGBA', (SIZE, SIZE), (0, 0, 0, 0))
+    draw = ImageDraw.Draw(glow)
+    for r in range(480, 0, -8):
+        t = r / 480
+        alpha = int(55 * (1 - t) ** 2)
+        draw.ellipse([cx - r, cy - r, cx + r, cy + r],
+                     fill=(255, 190, 30, alpha))
+    glow = glow.filter(ImageFilter.GaussianBlur(radius=30))
+    return Image.alpha_composite(img, glow)
 
 def find_font(size: int):
     candidates = [
@@ -64,7 +66,8 @@ def draw_seven_glow(img: Image.Image, font) -> Image.Image:
     return img
 
 def draw_stars(draw: ImageDraw.ImageDraw) -> None:
-    for cx, cy, base_r in [(175, 175, 14), (245, 135, 10), (135, 245, 10)]:
+    # 位置都在安全區域（距角落 >200px），避免被 macOS squircle 裁切
+    for cx, cy, base_r in [(200, 440, 13), (824, 440, 13), (512, 170, 11)]:
         for r in range(base_r, 0, -3):
             alpha = int(220 * r / base_r)
             draw.ellipse([cx - r, cy - r, cx + r, cy + r],
@@ -72,8 +75,8 @@ def draw_stars(draw: ImageDraw.ImageDraw) -> None:
 
 def main():
     img = gradient_bg(SIZE)
+    img = draw_radial_bg_glow(img)
     draw = ImageDraw.Draw(img)
-    draw_gold_border(draw, SIZE)
     draw_stars(draw)
     font = find_font(600)
     img = draw_seven_glow(img, font)
