@@ -2,6 +2,12 @@ export const CELL_W = 56
 export const CELL_H = 44
 export const GAP = 4
 
+function idToColor(id: number): string {
+  if (id === 92) return '#1f2937'
+  const hue = (id * 137.508) % 360
+  return `hsl(${hue.toFixed(1)}, 55%, 28%)`
+}
+
 const BT_BORDER: Record<number, string> = {
   0: '#4b5563', // 灰
   1: '#9ca3af', // 銀
@@ -34,7 +40,7 @@ export function Cell({
   const width = w * CELL_W + (w - 1) * GAP
   const height = l * CELL_H + (l - 1) * GAP
 
-  const bg = isHighlighted ? '#2563eb' : '#1f2937'
+  const bg = isHighlighted ? '#2563eb' : idToColor(id)
   const borderColor = BT_BORDER[bt] ?? BT_BORDER[0]
   const ring = isSelected ? '0 0 0 2px #ec4899' : 'none'
 
