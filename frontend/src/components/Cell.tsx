@@ -9,6 +9,13 @@ function idToColor(id: number): string {
   return `hsl(${hue.toFixed(1)}, 55%, 28%)`
 }
 
+function idToColorHover(id: number): string {
+  if (id === 0) return '#4b5563'
+  if (id === 92) return '#374151'
+  const hue = (id * 137.508) % 360
+  return `hsl(${hue.toFixed(1)}, 55%, 44%)`
+}
+
 const BT_BORDER: Record<number, string> = {
   0: '#4b5563', // 灰
   1: '#9ca3af', // 銀
@@ -24,6 +31,7 @@ type Props = {
   rowIndex: number
   topOffset: number
   isHighlighted: boolean
+  isHovered: boolean
   isSelected: boolean
   onMouseDown: (reel: number, row: number) => void
   onMouseEnter: (reel: number, row: number) => void
@@ -33,7 +41,7 @@ type Props = {
 export function Cell({
   id, bt, w, l,
   reelIndex, rowIndex, topOffset,
-  isHighlighted, isSelected,
+  isHighlighted, isHovered, isSelected,
   onMouseDown, onMouseEnter, onMouseUp,
 }: Props) {
   const left = reelIndex * (CELL_W + GAP)
@@ -41,7 +49,7 @@ export function Cell({
   const width = w * CELL_W + (w - 1) * GAP
   const height = l * CELL_H + (l - 1) * GAP
 
-  const bg = isHighlighted ? '#2563eb' : idToColor(id)
+  const bg = isHighlighted ? '#2563eb' : isHovered ? idToColorHover(id) : idToColor(id)
   const borderColor = BT_BORDER[bt] ?? BT_BORDER[0]
   const ring = isSelected ? '0 0 0 2px #ec4899' : 'none'
 
