@@ -129,7 +129,7 @@ export function Toolbar({
         disabled={favoriteIds.length === 0}
         className="px-3 py-1 rounded border text-xs font-mono bg-gray-800 border-gray-600 text-gray-300 hover:bg-gray-700 disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
       >
-        隨機
+        RNG
       </button>
     </div>
   )
