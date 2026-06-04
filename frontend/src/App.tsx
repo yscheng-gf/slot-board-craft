@@ -24,6 +24,7 @@ export default function App() {
   const [selectedBt, setSelectedBt] = useState(0)
   const [favoriteIds, setFavoriteIds] = useState<number[]>([0, 1, 2, 3, 11, 91, 92])
   const [cursorInfo, setCursorInfo] = useState<CursorInfo>(null)
+  const [hoveredCell, setHoveredCell] = useState<{ reelIndex: number; rowIndex: number } | null>(null)
 
   const { layout, grid, rebuildGrid, placeSymbol, randomizeBoard } = useGrid(parseLayout(DEFAULT_LAYOUT_STR))
   const { isDragging, startDrag, updateDrag, endDrag, isHighlighted } = useDrag()
@@ -79,12 +80,14 @@ export default function App() {
 
   const handleMouseDown = useCallback((reel: number, row: number) => {
     startDrag(reel, row)
-    setCursorInfo({ reelIndex: reel, rowIndex: row, cell: grid[reel]?.[row] ?? { id: 92, bt: 0, w: 1, l: 1 } })
-  }, [startDrag, grid])
+  }, [startDrag])
 
   const handleMouseEnter = useCallback((reel: number, row: number) => {
     if (isDragging) updateDrag(reel, row)
-  }, [isDragging, updateDrag])
+    const cell = grid[reel]?.[row] ?? { id: 92, bt: 0, w: 1, l: 1 }
+    setCursorInfo({ reelIndex: reel, rowIndex: row, cell })
+    setHoveredCell({ reelIndex: reel, rowIndex: row })
+  }, [isDragging, updateDrag, grid])
 
   const handleMouseUp = useCallback(() => {
     const result = endDrag()
@@ -106,6 +109,10 @@ export default function App() {
     randomizeBoard(favoriteIds)
     setCursorInfo(null)
   }, [randomizeBoard, favoriteIds])
+
+  const handleHoverLeave = useCallback(() => {
+    setHoveredCell(null)
+  }, [])
 
   return (
     <div className="flex flex-col h-screen bg-gray-950 text-gray-100 overflow-hidden">
@@ -130,9 +137,11 @@ export default function App() {
               layout={layout}
               isHighlighted={isHighlighted}
               selectedCell={cursorInfo}
+              hoveredCell={hoveredCell}
               onMouseDown={handleMouseDown}
               onMouseEnter={handleMouseEnter}
               onMouseUp={handleMouseUp}
+              onHoverLeave={handleHoverLeave}
             />
           </div>
         </div>
