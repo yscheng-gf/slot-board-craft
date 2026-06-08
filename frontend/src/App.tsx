@@ -25,6 +25,7 @@ export default function App() {
   const [favoriteIds, setFavoriteIds] = useState<number[]>([0, 1, 2, 3, 11, 91, 92])
   const [cursorInfo, setCursorInfo] = useState<CursorInfo>(null)
   const [hoveredCell, setHoveredCell] = useState<{ reelIndex: number; rowIndex: number } | null>(null)
+  const [configLoaded, setConfigLoaded] = useState(false)
 
   const { layout, grid, rebuildGrid, placeSymbol, randomizeBoard } = useGrid(parseLayout(DEFAULT_LAYOUT_STR))
   const { isDragging, startDrag, updateDrag, endDrag, isHighlighted } = useDrag()
@@ -63,13 +64,16 @@ export default function App() {
         setLayoutInput(cfg.lastLayout)
         rebuildGrid(parseLayout(cfg.lastLayout))
       }
-    }).catch(() => {})
+    }).catch(() => {}).finally(() => {
+      setConfigLoaded(true)
+    })
   }, [])
 
-  // 儲存設定（favoriteIds 或 layoutInput 改變時）
+  // 儲存設定（favoriteIds 或 layoutInput 改變時，載入完成後才執行）
   useEffect(() => {
+    if (!configLoaded) return
     SaveConfig({ favoriteIds, lastLayout: layoutInput }).catch(() => {})
-  }, [favoriteIds, layoutInput])
+  }, [favoriteIds, layoutInput, configLoaded])
 
   const handleLayoutChange = useCallback((raw: string) => {
     const nums = parseLayout(raw)
