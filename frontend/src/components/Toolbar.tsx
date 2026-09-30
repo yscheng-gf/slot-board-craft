@@ -1,5 +1,6 @@
 import { useState, useRef, useEffect } from 'react'
 import { BORDER_TIERS, getBorderTier } from '../constants/borderTypes'
+import { HelpModal } from './HelpModal'
 
 type Props = {
   layoutInput: string
@@ -28,6 +29,7 @@ export function Toolbar({
 }: Props) {
   const [idInput, setIdInput] = useState('')
   const [addInput, setAddInput] = useState('')
+  const [helpOpen, setHelpOpen] = useState(false)
   const idInputRef = useRef<HTMLInputElement>(null)
 
   // 讓使用者能自由編輯中的文字，同時在外部（如設定檔載入完成）更新 layoutInput 時同步顯示
@@ -146,6 +148,18 @@ export function Toolbar({
       >
         RNG
       </button>
+
+      {/* 說明 */}
+      <button
+        onClick={() => setHelpOpen(true)}
+        aria-label="說明"
+        title="操作說明"
+        className="ml-auto w-6 h-6 flex items-center justify-center rounded-full border text-xs font-mono bg-gray-800 border-gray-600 text-gray-300 hover:bg-gray-700 transition-colors"
+      >
+        ?
+      </button>
+
+      {helpOpen && <HelpModal onClose={() => setHelpOpen(false)} />}
     </div>
   )
 }
