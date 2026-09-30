@@ -22,8 +22,15 @@ jobs:
       - name: Install Wails
         run: go install github.com/wailsapp/wails/v2/cmd/wails@v2.12.0
 
+      - name: Set app version from tag
+        shell: bash
+        run: |
+          VERSION="${GITHUB_REF_NAME#v}"
+          echo "VERSION=$VERSION" >> "$GITHUB_ENV"
+          jq --arg v "$VERSION" '.info.productVersion = $v' wails.json > wails.json.tmp && mv wails.json.tmp wails.json
+
       - name: Build macOS (universal)
-        run: wails build -platform darwin/universal
+        run: wails build -platform darwin/universal -ldflags "-X main.version=${{ env.VERSION }}"
 
       - name: Install create-dmg
         run: brew install create-dmg
@@ -65,8 +72,15 @@ jobs:
       - name: Install Wails
         run: go install github.com/wailsapp/wails/v2/cmd/wails@v2.12.0
 
+      - name: Set app version from tag
+        shell: bash
+        run: |
+          VERSION="${GITHUB_REF_NAME#v}"
+          echo "VERSION=$VERSION" >> "$GITHUB_ENV"
+          jq --arg v "$VERSION" '.info.productVersion = $v' wails.json > wails.json.tmp && mv wails.json.tmp wails.json
+
       - name: Build Windows
-        run: wails build -platform windows/amd64
+        run: wails build -platform windows/amd64 -ldflags "-X main.version=${{ env.VERSION }}"
 
       - name: Rename EXE
         run: Move-Item "build\bin\Slot Board Craft.exe" "SlotBoardCraft-${{ github.ref_name }}-Windows.exe"

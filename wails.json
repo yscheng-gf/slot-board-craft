@@ -3,7 +3,8 @@
   "name": "Slot Board Craft",
   "outputfilename": "Slot Board Craft",
   "info": {
-    "productName": "Slot Board Craft"
+    "productName": "Slot Board Craft",
+    "productVersion": "0.0.0"
   },
   "frontend:install": "npm install",
   "frontend:build": "npm run build",

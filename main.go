@@ -6,10 +6,14 @@ import (
 	"github.com/wailsapp/wails/v2"
 	"github.com/wailsapp/wails/v2/pkg/options"
 	"github.com/wailsapp/wails/v2/pkg/options/assetserver"
+	"github.com/wailsapp/wails/v2/pkg/options/mac"
 )
 
 //go:embed all:frontend/dist
 var assets embed.FS
+
+// version is overridden at build time via -ldflags "-X main.version=...".
+var version = "dev"
 
 func main() {
 	// Create an instance of the app structure
@@ -24,7 +28,13 @@ func main() {
 			Assets: assets,
 		},
 		BackgroundColour: &options.RGBA{R: 27, G: 38, B: 54, A: 1},
-		OnStartup:        app.startup,
+		Mac: &mac.Options{
+			About: &mac.AboutInfo{
+				Title:   "Slot Board Craft",
+				Message: "Version " + version,
+			},
+		},
+		OnStartup: app.startup,
 		Bind: []any{
 			app,
 		},
