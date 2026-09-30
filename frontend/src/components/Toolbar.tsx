@@ -1,4 +1,4 @@
-import { useState, useRef } from 'react'
+import { useState, useRef, useEffect } from 'react'
 
 type Props = {
   layoutInput: string
@@ -29,6 +29,12 @@ export function Toolbar({
   const [addInput, setAddInput] = useState('')
   const idInputRef = useRef<HTMLInputElement>(null)
 
+  // 讓使用者能自由編輯中的文字，同時在外部（如設定檔載入完成）更新 layoutInput 時同步顯示
+  const [localLayout, setLocalLayout] = useState(layoutInput)
+  useEffect(() => {
+    setLocalLayout(layoutInput)
+  }, [layoutInput])
+
   function handleLayoutKey(e: React.KeyboardEvent<HTMLInputElement>) {
     if (e.key === 'Enter') {
       onLayoutChange((e.target as HTMLInputElement).value)
@@ -57,7 +63,8 @@ export function Toolbar({
       <div className="flex items-center gap-2">
         <span className="text-xs text-gray-400">Layout:</span>
         <input
-          defaultValue={layoutInput}
+          value={localLayout}
+          onChange={(e) => setLocalLayout(e.target.value)}
           onKeyDown={handleLayoutKey}
           className="bg-gray-800 text-gray-100 text-sm px-2 py-1 rounded border border-gray-600 w-36 font-mono"
           placeholder="3,4,5,5,4,3"
