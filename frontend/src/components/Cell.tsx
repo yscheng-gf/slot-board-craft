@@ -1,3 +1,5 @@
+import { getBorderTier } from '../constants/borderTypes'
+
 export const CELL_W = 56
 export const CELL_H = 44
 export const GAP = 4
@@ -14,12 +16,6 @@ function idToColorHover(id: number): string {
   if (id === 92) return '#374151'
   const hue = (id * 137.508) % 360
   return `hsl(${hue.toFixed(1)}, 55%, 44%)`
-}
-
-const BT_BORDER: Record<number, string> = {
-  0: '#4b5563', // 灰
-  1: '#9ca3af', // 銀
-  2: '#f59e0b', // 金
 }
 
 type Props = {
@@ -50,8 +46,10 @@ export function Cell({
   const height = l * CELL_H + (l - 1) * GAP
 
   const bg = isHighlighted ? '#2563eb' : isHovered ? idToColorHover(id) : idToColor(id)
-  const borderColor = BT_BORDER[bt] ?? BT_BORDER[0]
-  const ring = isSelected ? '0 0 0 2px #ec4899' : 'none'
+  const tier = getBorderTier(bt)
+  const borderColor = tier.color
+  const shadows = [isSelected ? '0 0 0 2px #ec4899' : null, tier.glow].filter(Boolean)
+  const ring = shadows.length > 0 ? shadows.join(', ') : 'none'
 
   return (
     <div

@@ -1,4 +1,5 @@
 import { useState, useRef, useEffect } from 'react'
+import { BORDER_TIERS, getBorderTier } from '../constants/borderTypes'
 
 type Props = {
   layoutInput: string
@@ -120,14 +121,21 @@ export function Toolbar({
       {/* BT */}
       <div className="flex items-center gap-1">
         <span className="text-xs text-gray-400">BT:</span>
-        <input
-          type="number"
-          min={0}
-          max={2}
+        <span
+          className="inline-block w-3 h-3 rounded-full border border-gray-600"
+          style={{ background: getBorderTier(selectedBt).color }}
+        />
+        <select
           value={selectedBt}
           onChange={(e) => onBtChange(Number(e.target.value))}
-          className="bg-gray-800 text-gray-100 text-sm px-2 py-1 rounded border border-gray-600 w-12 font-mono text-center"
-        />
+          className="bg-gray-800 text-gray-100 text-sm px-2 py-1 rounded border border-gray-600 font-mono"
+        >
+          {BORDER_TIERS.map((tier) => (
+            <option key={tier.id} value={tier.id}>
+              BT {tier.id}
+            </option>
+          ))}
+        </select>
       </div>
 
       {/* 隨機 */}

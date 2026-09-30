@@ -2,6 +2,7 @@
 import { useState } from 'react'
 import type { CursorInfo } from '../types'
 import { CopyToClipboard } from '../../wailsjs/go/main/App'
+import { getBorderTier } from '../constants/borderTypes'
 
 type Props = {
   cursorInfo: CursorInfo
@@ -39,7 +40,13 @@ export function RightPanel({ cursorInfo, json }: Props) {
           <div className="space-y-1 font-mono text-gray-200">
             <div>Reel <span className="text-pink-400">{cursorInfo.reelIndex}</span>, Row <span className="text-pink-400">{cursorInfo.rowIndex}</span></div>
             <div>ID: <span className="text-yellow-300">{cursorInfo.cell.id}</span></div>
-            <div>BT: <span className="text-yellow-300">{cursorInfo.cell.bt}</span></div>
+            <div className="flex items-center gap-1">
+              BT: <span className="text-yellow-300">{cursorInfo.cell.bt}</span>
+              <span
+                className="inline-block w-2.5 h-2.5 rounded-full border border-gray-600"
+                style={{ background: getBorderTier(cursorInfo.cell.bt).color }}
+              />
+            </div>
             <div>W: <span className="text-yellow-300">{cursorInfo.cell.w}</span>  L: <span className="text-yellow-300">{cursorInfo.cell.l}</span></div>
           </div>
         ) : (
