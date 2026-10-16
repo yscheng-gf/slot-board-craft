@@ -3,6 +3,7 @@ import type { Grid } from '../types'
 type SymbolOut = {
   id: number
   bt?: number
+  s?: number
   l: number
   w: number
   i: number
@@ -17,6 +18,7 @@ export function generateJson(grid: Grid): string {
       return {
         id: cell.id,
         ...(cell.bt !== 0 && { bt: cell.bt }),
+        ...(cell.s !== 0 && { s: cell.s }),
         l: cell.l,
         w: cell.w,
         i,

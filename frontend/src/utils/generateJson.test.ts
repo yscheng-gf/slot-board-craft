@@ -5,8 +5,8 @@ import type { Grid } from '../types'
 describe('generateJson', () => {
   it('空盤面（全 id=92）輸出所有格子', () => {
     const grid: Grid = [
-      [{ id: 92, bt: 0, w: 1, l: 1 }, { id: 92, bt: 0, w: 1, l: 1 }],
-      [{ id: 92, bt: 0, w: 1, l: 1 }, { id: 92, bt: 0, w: 1, l: 1 }],
+      [{ id: 92, bt: 0, w: 1, l: 1, s: 0 }, { id: 92, bt: 0, w: 1, l: 1, s: 0 }],
+      [{ id: 92, bt: 0, w: 1, l: 1, s: 0 }, { id: 92, bt: 0, w: 1, l: 1, s: 0 }],
     ]
     const result = JSON.parse(generateJson(grid))
     expect(result[0][0]).toMatchObject({ id: 92, l: 1, w: 1, i: 0 })
@@ -17,29 +17,41 @@ describe('generateJson', () => {
 
   it('id=0 的格子輸出為 null', () => {
     const grid: Grid = [
-      [{ id: 1, bt: 0, w: 2, l: 1 }, { id: 92, bt: 0, w: 1, l: 1 }],
-      [{ id: 0, bt: 0, w: 1, l: 1 }, { id: 92, bt: 0, w: 1, l: 1 }],
+      [{ id: 1, bt: 0, w: 2, l: 1, s: 0 }, { id: 92, bt: 0, w: 1, l: 1, s: 0 }],
+      [{ id: 0, bt: 0, w: 1, l: 1, s: 0 }, { id: 92, bt: 0, w: 1, l: 1, s: 0 }],
     ]
     const result = JSON.parse(generateJson(grid))
     expect(result[1][0]).toBeNull()
   })
 
   it('bt=0 時不輸出 bt 欄位', () => {
-    const grid: Grid = [[{ id: 3, bt: 0, w: 1, l: 1 }]]
+    const grid: Grid = [[{ id: 3, bt: 0, w: 1, l: 1, s: 0 }]]
     const result = JSON.parse(generateJson(grid))
     expect(result[0][0]).not.toHaveProperty('bt')
   })
 
   it('bt!=0 時輸出 bt 欄位', () => {
-    const grid: Grid = [[{ id: 3, bt: 2, w: 1, l: 1 }]]
+    const grid: Grid = [[{ id: 3, bt: 2, w: 1, l: 1, s: 0 }]]
     const result = JSON.parse(generateJson(grid))
     expect(result[0][0].bt).toBe(2)
   })
 
+  it('s=0 時不輸出 s 欄位', () => {
+    const grid: Grid = [[{ id: 3, bt: 0, w: 1, l: 1, s: 0 }]]
+    const result = JSON.parse(generateJson(grid))
+    expect(result[0][0]).not.toHaveProperty('s')
+  })
+
+  it('s!=0 時輸出 s 欄位', () => {
+    const grid: Grid = [[{ id: 3, bt: 0, w: 1, l: 1, s: 5 }]]
+    const result = JSON.parse(generateJson(grid))
+    expect(result[0][0].s).toBe(5)
+  })
+
   it('index 從左到右、從上到下遞增', () => {
     const grid: Grid = [
-      [{ id: 1, bt: 0, w: 1, l: 1 }, { id: 2, bt: 0, w: 1, l: 1 }],
-      [{ id: 3, bt: 0, w: 1, l: 1 }, { id: 4, bt: 0, w: 1, l: 1 }],
+      [{ id: 1, bt: 0, w: 1, l: 1, s: 0 }, { id: 2, bt: 0, w: 1, l: 1, s: 0 }],
+      [{ id: 3, bt: 0, w: 1, l: 1, s: 0 }, { id: 4, bt: 0, w: 1, l: 1, s: 0 }],
     ]
     const result = JSON.parse(generateJson(grid))
     expect(result[0][0].i).toBe(0)
@@ -49,7 +61,7 @@ describe('generateJson', () => {
   })
 
   it('輸出為二維陣列', () => {
-    const grid: Grid = [[{ id: 92, bt: 0, w: 1, l: 1 }]]
+    const grid: Grid = [[{ id: 92, bt: 0, w: 1, l: 1, s: 0 }]]
     const result = JSON.parse(generateJson(grid))
     expect(Array.isArray(result)).toBe(true)
     expect(Array.isArray(result[0])).toBe(true)

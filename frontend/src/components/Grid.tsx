@@ -1,11 +1,14 @@
 // frontend/src/components/Grid.tsx
-import { useCallback } from 'react'
+import { useCallback, useMemo } from 'react'
 import type { Grid as GridType, CursorInfo } from '../types'
 import { Cell, CELL_W, CELL_H, GAP } from './Cell'
+import { getThemeIcon, resolveGridIcons } from '../themes/themes'
+import type { SymbolTheme } from '../themes/types'
 
 type Props = {
   grid: GridType
   layout: number[]
+  theme: SymbolTheme
   isHighlighted: (reel: number, row: number) => boolean
   selectedCell: CursorInfo
   hoveredCell: { reelIndex: number; rowIndex: number } | null
@@ -18,6 +21,7 @@ type Props = {
 export function Grid({
   grid,
   layout,
+  theme,
   isHighlighted,
   selectedCell,
   hoveredCell,
@@ -29,6 +33,7 @@ export function Grid({
   const maxRows = Math.max(...layout)
   const containerWidth = layout.length * (CELL_W + GAP) - GAP
   const containerHeight = maxRows * (CELL_H + GAP) - GAP
+  const dynamicIcons = useMemo(() => resolveGridIcons(theme, grid), [theme, grid])
 
   const isSelected = useCallback(
     (reel: number, row: number) =>
@@ -82,6 +87,9 @@ export function Grid({
               bt={cell.bt}
               w={cell.w}
               l={cell.l}
+              s={cell.s}
+              iconUrl={getThemeIcon(theme, cell.id, dynamicIcons)}
+              pixelArt={theme.pixelArt}
               reelIndex={reelIdx}
               rowIndex={rowIdx}
               topOffset={topOffset}

@@ -2,8 +2,8 @@
 import { useState, useCallback } from 'react'
 import type { Grid, Cell } from '../types'
 
-function makeCell(id = 92): Cell {
-  return { id, bt: 0, w: 1, l: 1 }
+function makeCell(id = 0): Cell {
+  return { id, bt: 0, w: 1, l: 1, s: 0 }
 }
 
 function buildGrid(layout: number[]): Grid {
@@ -20,7 +20,7 @@ export function useGrid(initialLayout: number[] = [3, 4, 5, 5, 4, 3]) {
   }, [])
 
   const placeSymbol = useCallback(
-    (reelStart: number, rowStart: number, w: number, l: number, id: number, bt: number) => {
+    (reelStart: number, rowStart: number, w: number, l: number, id: number, bt: number, s: number) => {
       setGrid((prev) => {
         const numReels = prev.length
         // 截斷超出邊界的 w
@@ -41,7 +41,7 @@ export function useGrid(initialLayout: number[] = [3, 4, 5, 5, 4, 3]) {
         }
 
         // 主格
-        next[reelStart][rowStart] = { id, bt, w: safeW, l: safeL }
+        next[reelStart][rowStart] = { id, bt, w: safeW, l: safeL, s }
         return next
       })
     },
@@ -58,6 +58,7 @@ export function useGrid(initialLayout: number[] = [3, 4, 5, 5, 4, 3]) {
           bt: 0,
           w: 1,
           l: 1,
+          s: 0,
         }))
       )
     )

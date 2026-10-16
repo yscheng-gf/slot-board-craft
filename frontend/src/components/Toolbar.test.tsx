@@ -2,6 +2,7 @@
 import { describe, it, expect } from 'vitest'
 import { render, screen, fireEvent } from '@testing-library/react'
 import { Toolbar } from './Toolbar'
+import { DEFAULT_THEME } from '../themes/themes'
 
 function noop() {}
 
@@ -9,10 +10,15 @@ const baseProps = {
   layoutInput: '3,4,5,5,4,3',
   selectedId: 92,
   selectedBt: 0,
+  selectedS: 0,
   favoriteIds: [],
+  themes: [DEFAULT_THEME],
+  themeId: DEFAULT_THEME.id,
   onLayoutChange: noop,
   onSelectId: noop,
   onBtChange: noop,
+  onSChange: noop,
+  onThemeChange: noop,
   onAddFavorite: noop,
   onRemoveFavorite: noop,
   onRandomize: noop,
@@ -38,10 +44,15 @@ describe('Toolbar layout 輸入框', () => {
         layoutInput="3,4,5,5,4,3"
         selectedId={92}
         selectedBt={0}
+        selectedS={0}
         favoriteIds={[]}
+        themes={[DEFAULT_THEME]}
+        themeId={DEFAULT_THEME.id}
         onLayoutChange={noop}
         onSelectId={noop}
         onBtChange={noop}
+        onSChange={noop}
+        onThemeChange={noop}
         onAddFavorite={noop}
         onRemoveFavorite={noop}
         onRandomize={noop}
@@ -54,10 +65,15 @@ describe('Toolbar layout 輸入框', () => {
         layoutInput="2,3,3,2"
         selectedId={92}
         selectedBt={0}
+        selectedS={0}
         favoriteIds={[]}
+        themes={[DEFAULT_THEME]}
+        themeId={DEFAULT_THEME.id}
         onLayoutChange={noop}
         onSelectId={noop}
         onBtChange={noop}
+        onSChange={noop}
+        onThemeChange={noop}
         onAddFavorite={noop}
         onRemoveFavorite={noop}
         onRandomize={noop}

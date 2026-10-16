@@ -1,15 +1,21 @@
 import { useState, useRef, useEffect } from 'react'
-import { BORDER_TIERS, getBorderTier } from '../constants/borderTypes'
+import { getBorderTier } from '../constants/borderTypes'
 import { HelpModal } from './HelpModal'
+import type { SymbolTheme } from '../themes/types'
 
 type Props = {
   layoutInput: string
   selectedId: number
   selectedBt: number
+  selectedS: number
   favoriteIds: number[]
+  themes: SymbolTheme[]
+  themeId: string
   onLayoutChange: (raw: string) => void
   onSelectId: (id: number) => void
   onBtChange: (bt: number) => void
+  onSChange: (s: number) => void
+  onThemeChange: (themeId: string) => void
   onAddFavorite: (id: number) => void
   onRemoveFavorite: (id: number) => void
   onRandomize: () => void
@@ -19,10 +25,15 @@ export function Toolbar({
   layoutInput,
   selectedId,
   selectedBt,
+  selectedS,
   favoriteIds,
+  themes,
+  themeId,
   onLayoutChange,
   onSelectId,
   onBtChange,
+  onSChange,
+  onThemeChange,
   onAddFavorite,
   onRemoveFavorite,
   onRandomize,
@@ -127,14 +138,44 @@ export function Toolbar({
           className="inline-block w-3 h-3 rounded-full border border-gray-600"
           style={{ background: getBorderTier(selectedBt).color }}
         />
-        <select
+        <input
+          type="number"
+          min={0}
           value={selectedBt}
-          onChange={(e) => onBtChange(Number(e.target.value))}
+          onChange={(e) => {
+            const val = Math.max(0, parseInt(e.target.value, 10) || 0)
+            onBtChange(val)
+          }}
+          className="bg-gray-800 text-gray-100 text-sm px-2 py-1 rounded border border-gray-600 w-16 font-mono text-center"
+        />
+      </div>
+
+      {/* S（狀態） */}
+      <div className="flex items-center gap-1">
+        <span className="text-xs text-gray-400">S:</span>
+        <input
+          type="number"
+          min={0}
+          value={selectedS}
+          onChange={(e) => {
+            const val = Math.max(0, parseInt(e.target.value, 10) || 0)
+            onSChange(val)
+          }}
+          className="bg-gray-800 text-gray-100 text-sm px-2 py-1 rounded border border-gray-600 w-16 font-mono text-center"
+        />
+      </div>
+
+      {/* 主題 */}
+      <div className="flex items-center gap-1">
+        <span className="text-xs text-gray-400">主題:</span>
+        <select
+          value={themeId}
+          onChange={(e) => onThemeChange(e.target.value)}
           className="bg-gray-800 text-gray-100 text-sm px-2 py-1 rounded border border-gray-600 font-mono"
         >
-          {BORDER_TIERS.map((tier) => (
-            <option key={tier.id} value={tier.id}>
-              BT {tier.id}
+          {themes.map((t) => (
+            <option key={t.id} value={t.id}>
+              {t.name}
             </option>
           ))}
         </select>

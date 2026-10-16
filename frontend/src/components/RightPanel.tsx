@@ -48,6 +48,7 @@ export function RightPanel({ cursorInfo, json }: Props) {
               />
             </div>
             <div>W: <span className="text-yellow-300">{cursorInfo.cell.w}</span>  L: <span className="text-yellow-300">{cursorInfo.cell.l}</span></div>
+            <div>S: <span className="text-yellow-300">{cursorInfo.cell.s}</span></div>
           </div>
         ) : (
           <div className="text-gray-500 text-xs">點擊格子查看資訊</div>

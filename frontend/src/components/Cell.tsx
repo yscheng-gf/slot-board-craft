@@ -6,14 +6,12 @@ export const GAP = 4
 
 function idToColor(id: number): string {
   if (id === 0) return '#374151'
-  if (id === 92) return '#1f2937'
   const hue = (id * 137.508) % 360
   return `hsl(${hue.toFixed(1)}, 55%, 28%)`
 }
 
 function idToColorHover(id: number): string {
   if (id === 0) return '#4b5563'
-  if (id === 92) return '#374151'
   const hue = (id * 137.508) % 360
   return `hsl(${hue.toFixed(1)}, 55%, 44%)`
 }
@@ -23,6 +21,9 @@ type Props = {
   bt: number
   w: number
   l: number
+  s: number
+  iconUrl?: string
+  pixelArt?: boolean
   reelIndex: number
   rowIndex: number
   topOffset: number
@@ -35,7 +36,7 @@ type Props = {
 }
 
 export function Cell({
-  id, bt, w, l,
+  id, bt, w, l, s, iconUrl, pixelArt,
   reelIndex, rowIndex, topOffset,
   isHighlighted, isHovered, isSelected,
   onMouseDown, onMouseEnter, onMouseUp,
@@ -69,10 +70,33 @@ export function Cell({
       onMouseEnter={() => onMouseEnter(reelIndex, rowIndex)}
       onMouseUp={onMouseUp}
     >
-      <span className="text-sm font-mono text-gray-100">{id}</span>
+      {iconUrl ? (
+        <img
+          src={iconUrl}
+          alt={`symbol ${id}`}
+          draggable={false}
+          style={{
+            width: 32,
+            height: 32,
+            imageRendering: pixelArt ? 'pixelated' : undefined,
+          }}
+        />
+      ) : (
+        <span className="text-sm font-mono text-gray-100">{id}</span>
+      )}
+      {iconUrl && (
+        <span className="absolute bottom-0.5 left-1 text-[9px] text-gray-400">
+          {id}
+        </span>
+      )}
       {(w > 1 || l > 1) && (
         <span className="absolute top-0.5 right-1 text-[9px] text-gray-400">
           {w}×{l}
+        </span>
+      )}
+      {s !== 0 && (
+        <span className="absolute bottom-0.5 right-1 text-[9px] text-gray-400">
+          s:{s}
         </span>
       )}
     </div>

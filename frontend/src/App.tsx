@@ -8,6 +8,8 @@ import { Toolbar } from './components/Toolbar'
 import { RightPanel } from './components/RightPanel'
 import { GetConfig, SaveConfig } from '../wailsjs/go/main/App'
 import type { CursorInfo, Config } from './types'
+import { DEFAULT_THEME, THEMES, getThemeById } from './themes/themes'
+import { snapScaleForPixelArt } from './utils/scale'
 
 const DEFAULT_LAYOUT_STR = '3,4,5,5,4,3'
 
@@ -22,6 +24,9 @@ export default function App() {
   const [layoutInput, setLayoutInput] = useState(DEFAULT_LAYOUT_STR)
   const [selectedId, setSelectedId] = useState(0)
   const [selectedBt, setSelectedBt] = useState(0)
+  const [selectedS, setSelectedS] = useState(0)
+  const [themeId, setThemeId] = useState(DEFAULT_THEME.id)
+  const theme = getThemeById(themeId)
   const [favoriteIds, setFavoriteIds] = useState<number[]>([0, 1, 2, 3, 11, 91, 92])
   const [cursorInfo, setCursorInfo] = useState<CursorInfo>(null)
   const [hoveredCell, setHoveredCell] = useState<{ reelIndex: number; rowIndex: number } | null>(null)
@@ -48,13 +53,14 @@ export default function App() {
       const natW = gridEl.offsetWidth
       const natH = gridEl.offsetHeight
       if (natW === 0 || natH === 0) return
-      setScale(Math.min(availW / natW, availH / natH))
+      const rawScale = Math.min(availW / natW, availH / natH)
+      setScale(theme.pixelArt ? snapScaleForPixelArt(rawScale) : rawScale)
     }
     const ro = new ResizeObserver(update)
     ro.observe(panel)
     update()
     return () => ro.disconnect()
-  }, [layout])
+  }, [layout, theme.pixelArt])
 
   // 載入設定
   useEffect(() => {
@@ -88,7 +94,7 @@ export default function App() {
 
   const handleMouseEnter = useCallback((reel: number, row: number) => {
     if (isDragging) updateDrag(reel, row)
-    const cell = grid[reel]?.[row] ?? { id: 92, bt: 0, w: 1, l: 1 }
+    const cell = grid[reel]?.[row] ?? { id: 0, bt: 0, w: 1, l: 1, s: 0 }
     setCursorInfo({ reelIndex: reel, rowIndex: row, cell })
     setHoveredCell({ reelIndex: reel, rowIndex: row })
   }, [isDragging, updateDrag, grid])
@@ -96,10 +102,10 @@ export default function App() {
   const handleMouseUp = useCallback(() => {
     const result = endDrag()
     if (!result) return
-    placeSymbol(result.reelStart, result.rowStart, result.w, result.l, selectedId, selectedBt)
-    const placedCell = { id: selectedId, bt: selectedBt, w: result.w, l: result.l }
+    placeSymbol(result.reelStart, result.rowStart, result.w, result.l, selectedId, selectedBt, selectedS)
+    const placedCell = { id: selectedId, bt: selectedBt, w: result.w, l: result.l, s: selectedS }
     setCursorInfo({ reelIndex: result.reelStart, rowIndex: result.rowStart, cell: placedCell })
-  }, [endDrag, placeSymbol, selectedId, selectedBt])
+  }, [endDrag, placeSymbol, selectedId, selectedBt, selectedS])
 
   const handleAddFavorite = useCallback((id: number) => {
     setFavoriteIds((prev) => [...prev, id].sort((a, b) => a - b))
@@ -124,10 +130,15 @@ export default function App() {
         layoutInput={layoutInput}
         selectedId={selectedId}
         selectedBt={selectedBt}
+        selectedS={selectedS}
         favoriteIds={favoriteIds}
+        themes={THEMES}
+        themeId={themeId}
         onLayoutChange={handleLayoutChange}
         onSelectId={setSelectedId}
         onBtChange={setSelectedBt}
+        onSChange={setSelectedS}
+        onThemeChange={setThemeId}
         onAddFavorite={handleAddFavorite}
         onRemoveFavorite={handleRemoveFavorite}
         onRandomize={handleRandomize}
@@ -139,6 +150,7 @@ export default function App() {
             <Grid
               grid={grid}
               layout={layout}
+              theme={theme}
               isHighlighted={isHighlighted}
               selectedCell={cursorInfo}
               hoveredCell={hoveredCell}
