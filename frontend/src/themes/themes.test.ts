@@ -139,9 +139,10 @@ describe('resolveGridIcons', () => {
 })
 
 describe('THEMES', () => {
-  it('第一個是 DEFAULT_THEME，且包含 pixel 主題', () => {
+  it('第一個是 DEFAULT_THEME，且包含 pixel 與 classic 主題', () => {
     expect(THEMES[0]).toBe(DEFAULT_THEME)
     expect(THEMES.some((t) => t.id === 'pixel')).toBe(true)
+    expect(THEMES.some((t) => t.id === 'classic')).toBe(true)
   })
 
   it('pixel 主題標記 pixelArt，且至少涵蓋 1~9 高倍符號', () => {
@@ -181,5 +182,30 @@ describe('THEMES', () => {
     const fallbackIcon = getThemeIcon(pixel, 100, dynamicIcons)
     expect(fallbackIcon).toBeDefined()
     expect(resolvedFor93to99).not.toContain(fallbackIcon)
+  })
+
+  it('classic 主題不是像素風，且至少涵蓋 1~9 高倍符號與 11~20 低倍符號', () => {
+    const classic = getThemeById('classic')
+    expect(classic.pixelArt).toBeFalsy()
+    for (let id = 1; id <= 9; id++) {
+      expect(classic.icons[id]).toBeDefined()
+    }
+    for (let id = 11; id <= 20; id++) {
+      expect(classic.icons[id]).toBeDefined()
+    }
+  })
+
+  it('classic 主題只固定 91=wild、92=scatter 兩個專屬圖示，其餘特殊符號交給動態池子', () => {
+    const classic = getThemeById('classic')
+    expect(classic.icons[91]).toBeDefined()
+    expect(classic.icons[92]).toBeDefined()
+    expect(classic.icons[93]).toBeUndefined()
+    expect(classic.dynamicPool?.icons.length).toBe(7)
+  })
+
+  it('classic 主題對還沒畫專屬圖、也還沒被動態分配的特殊符號 id 回傳通用 fallback 圖示', () => {
+    const classic = getThemeById('classic')
+    expect(getThemeIcon(classic, 150)).toBeDefined()
+    expect(getThemeIcon(classic, 150)).toBe(getThemeIcon(classic, 160))
   })
 })
