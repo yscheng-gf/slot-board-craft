@@ -3,6 +3,7 @@ export namespace main {
 	export class Config {
 	    favoriteIds: number[];
 	    lastLayout: string;
+	    themeId: string;
 	
 	    static createFrom(source: any = {}) {
 	        return new Config(source);
@@ -12,6 +13,7 @@ export namespace main {
 	        if ('string' === typeof source) source = JSON.parse(source);
 	        this.favoriteIds = source["favoriteIds"];
 	        this.lastLayout = source["lastLayout"];
+	        this.themeId = source["themeId"];
 	    }
 	}
 

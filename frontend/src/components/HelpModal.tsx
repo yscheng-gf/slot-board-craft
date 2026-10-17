@@ -43,7 +43,7 @@ export function HelpModal({ onClose }: Props) {
           <li><b>BT（邊框樣式）</b>：輸入任意數字（無上限）套用顏色／發光邊框，純粹用來視覺區分，無稀有度意義。</li>
           <li><b>S（狀態）</b>：輸入任意數字，標記在格子右下角（<code>s:數字</code>），預設 0 時不顯示。</li>
           <li><b>拖曳放置符號</b>：在盤面上按住拖曳可選取一塊範圍（w×l），放開滑鼠後套用目前選中的 ID / BT / S。</li>
-          <li><b>主題</b>：切換符號的圖示風格；目前內建「像素風」與「經典老虎機」兩個示範主題（ID 1~9 高倍符號、11~20 低倍符號、91=wild、92=scatter 固定對照）。80~199 內其他特殊符號 ID，依盤面上第一次出現的位置（reel 由左到右、row 由上到下）依序分配 bonus/free spins/jackpot/coin/respin/super wild/multiplier 共 7 張圖示，用完後退回通用的「？」圖示。圖示模式下左下角會標出數字 id 方便辨識；完全沒有涵蓋到的 ID 才會退回色塊顯示。</li>
+          <li><b>主題</b>：切換符號的圖示風格；目前內建「像素風」「經典老虎機」「七龍珠風」三個示範主題（ID 1~9 高倍符號、11~20 低倍符號、91=wild、92=scatter 固定對照）。80~199 內其他特殊符號 ID，依盤面上第一次出現的位置（reel 由左到右、row 由上到下）依序分配 bonus/free spins/jackpot/coin/respin/super wild/multiplier 共 7 張圖示，用完後退回通用的「？」圖示。圖示模式下左下角會標出數字 id 方便辨識；完全沒有涵蓋到的 ID 才會退回色塊顯示。</li>
           <li><b>RNG</b>：用目前的常用 ID 清單隨機產生整個盤面。</li>
           <li><b>JSON 輸出</b>：右側面板即時顯示盤面 JSON，可一鍵複製到剪貼簿。</li>
         </ul>

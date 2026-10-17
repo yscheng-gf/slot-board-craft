@@ -70,16 +70,17 @@ export default function App() {
         setLayoutInput(cfg.lastLayout)
         rebuildGrid(parseLayout(cfg.lastLayout))
       }
+      if (cfg.themeId) setThemeId(cfg.themeId)
     }).catch(() => {}).finally(() => {
       setConfigLoaded(true)
     })
   }, [])
 
-  // 儲存設定（favoriteIds 或 layoutInput 改變時，載入完成後才執行）
+  // 儲存設定（favoriteIds、layoutInput 或 themeId 改變時，載入完成後才執行）
   useEffect(() => {
     if (!configLoaded) return
-    SaveConfig({ favoriteIds, lastLayout: layoutInput }).catch(() => {})
-  }, [favoriteIds, layoutInput, configLoaded])
+    SaveConfig({ favoriteIds, lastLayout: layoutInput, themeId }).catch(() => {})
+  }, [favoriteIds, layoutInput, themeId, configLoaded])
 
   const handleLayoutChange = useCallback((raw: string) => {
     const nums = parseLayout(raw)

@@ -139,10 +139,11 @@ describe('resolveGridIcons', () => {
 })
 
 describe('THEMES', () => {
-  it('第一個是 DEFAULT_THEME，且包含 pixel 與 classic 主題', () => {
+  it('第一個是 DEFAULT_THEME，且包含 pixel、classic 與 dragonball 主題', () => {
     expect(THEMES[0]).toBe(DEFAULT_THEME)
     expect(THEMES.some((t) => t.id === 'pixel')).toBe(true)
     expect(THEMES.some((t) => t.id === 'classic')).toBe(true)
+    expect(THEMES.some((t) => t.id === 'dragonball')).toBe(true)
   })
 
   it('pixel 主題標記 pixelArt，且至少涵蓋 1~9 高倍符號', () => {
@@ -207,5 +208,25 @@ describe('THEMES', () => {
     const classic = getThemeById('classic')
     expect(getThemeIcon(classic, 150)).toBeDefined()
     expect(getThemeIcon(classic, 150)).toBe(getThemeIcon(classic, 160))
+  })
+
+  it('dragonball 主題至少涵蓋 1~9 高倍符號與 11~20 低倍符號，且只固定 91=wild、92=scatter', () => {
+    const dragonball = getThemeById('dragonball')
+    for (let id = 1; id <= 9; id++) {
+      expect(dragonball.icons[id]).toBeDefined()
+    }
+    for (let id = 11; id <= 20; id++) {
+      expect(dragonball.icons[id]).toBeDefined()
+    }
+    expect(dragonball.icons[91]).toBeDefined()
+    expect(dragonball.icons[92]).toBeDefined()
+    expect(dragonball.icons[93]).toBeUndefined()
+    expect(dragonball.dynamicPool?.icons.length).toBe(7)
+  })
+
+  it('dragonball 主題對還沒畫專屬圖、也還沒被動態分配的特殊符號 id 回傳通用 fallback 圖示', () => {
+    const dragonball = getThemeById('dragonball')
+    expect(getThemeIcon(dragonball, 150)).toBeDefined()
+    expect(getThemeIcon(dragonball, 150)).toBe(getThemeIcon(dragonball, 160))
   })
 })

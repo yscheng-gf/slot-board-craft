@@ -3,6 +3,7 @@ import type { SymbolTheme } from './types'
 import type { Grid } from '../types'
 import { PIXEL_THEME } from './pixel'
 import { CLASSIC_THEME } from './classic'
+import { DRAGONBALL_THEME } from './dragonball'
 
 export const DEFAULT_THEME: SymbolTheme = {
   id: 'default',
@@ -10,7 +11,7 @@ export const DEFAULT_THEME: SymbolTheme = {
   icons: {},
 }
 
-export const THEMES: SymbolTheme[] = [DEFAULT_THEME, PIXEL_THEME, CLASSIC_THEME]
+export const THEMES: SymbolTheme[] = [DEFAULT_THEME, PIXEL_THEME, CLASSIC_THEME, DRAGONBALL_THEME]
 
 export function getThemeById(id: string): SymbolTheme {
   return THEMES.find((t) => t.id === id) ?? DEFAULT_THEME

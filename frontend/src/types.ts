@@ -13,6 +13,7 @@ export type Grid = Cell[][]  // Grid[reelIndex][rowIndex]
 export type Config = {
   favoriteIds: number[]
   lastLayout: string
+  themeId: string
 }
 
 export type CursorInfo = {

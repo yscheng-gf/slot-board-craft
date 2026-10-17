@@ -13,11 +13,13 @@ import (
 type Config struct {
 	FavoriteIds []int  `json:"favoriteIds"`
 	LastLayout  string `json:"lastLayout"`
+	ThemeId     string `json:"themeId"`
 }
 
 var defaultConfig = Config{
 	FavoriteIds: []int{0, 1, 2, 3, 11, 91, 92},
 	LastLayout:  "3,4,5,5,4,3",
+	ThemeId:     "default",
 }
 
 type App struct {
