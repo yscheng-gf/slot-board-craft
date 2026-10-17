@@ -4,9 +4,10 @@ import { APP_VERSION } from '../version'
 
 type Props = {
   onClose: () => void
+  onCheckUpdate: () => void
 }
 
-export function HelpModal({ onClose }: Props) {
+export function HelpModal({ onClose, onCheckUpdate }: Props) {
   useEffect(() => {
     function handleKeyDown(e: KeyboardEvent) {
       if (e.key === 'Escape') onClose()
@@ -48,8 +49,14 @@ export function HelpModal({ onClose }: Props) {
           <li><b>JSON 輸出</b>：右側面板即時顯示盤面 JSON，可一鍵複製到剪貼簿。</li>
         </ul>
 
-        <div className="mt-4 pt-3 border-t border-gray-700 text-xs text-gray-500 font-mono">
-          {APP_VERSION}
+        <div className="mt-4 pt-3 border-t border-gray-700 flex items-center justify-between text-xs text-gray-500 font-mono">
+          <span>{APP_VERSION}</span>
+          <button
+            onClick={onCheckUpdate}
+            className="text-gray-400 hover:text-gray-100 font-sans"
+          >
+            檢查更新
+          </button>
         </div>
       </div>
     </div>

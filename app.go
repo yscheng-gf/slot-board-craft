@@ -24,10 +24,15 @@ var defaultConfig = Config{
 
 type App struct {
 	ctx context.Context
+
+	version       string
+	latestVersion string
+	updateURL     string
+	githubAPIBase string // 測試用，留空則使用真正的 GitHub API
 }
 
-func NewApp() *App {
-	return &App{}
+func NewApp(version string) *App {
+	return &App{version: version}
 }
 
 func (a *App) startup(ctx context.Context) {

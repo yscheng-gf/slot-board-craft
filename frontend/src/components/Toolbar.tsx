@@ -19,6 +19,7 @@ type Props = {
   onAddFavorite: (id: number) => void
   onRemoveFavorite: (id: number) => void
   onRandomize: () => void
+  onCheckUpdate: () => void
 }
 
 export function Toolbar({
@@ -37,6 +38,7 @@ export function Toolbar({
   onAddFavorite,
   onRemoveFavorite,
   onRandomize,
+  onCheckUpdate,
 }: Props) {
   const [idInput, setIdInput] = useState('')
   const [addInput, setAddInput] = useState('')
@@ -200,7 +202,7 @@ export function Toolbar({
         ?
       </button>
 
-      {helpOpen && <HelpModal onClose={() => setHelpOpen(false)} />}
+      {helpOpen && <HelpModal onClose={() => setHelpOpen(false)} onCheckUpdate={onCheckUpdate} />}
     </div>
   )
 }

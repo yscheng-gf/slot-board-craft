@@ -16,6 +16,15 @@ export type Config = {
   themeId: string
 }
 
+export type UpdateInfo = {
+  hasUpdate: boolean
+  currentVersion: string
+  latestVersion: string
+  releaseUrl: string
+}
+
+export type UpdatePhase = 'available' | 'updating' | 'success' | 'error' | 'up-to-date' | 'check-failed'
+
 export type CursorInfo = {
   reelIndex: number
   rowIndex: number

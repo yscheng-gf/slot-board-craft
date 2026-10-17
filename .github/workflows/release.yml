@@ -32,6 +32,17 @@ jobs:
       - name: Build macOS (universal)
         run: wails build -platform darwin/universal -ldflags "-X main.version=${{ env.VERSION }}"
 
+      - name: Package macOS auto-update archive
+        run: |
+          tar -czvf "SlotBoardCraft-${{ github.ref_name }}-macOS.tar.gz" \
+            -C "build/bin/Slot Board Craft.app/Contents/MacOS" "Slot Board Craft"
+
+      - name: Upload macOS auto-update archive
+        uses: actions/upload-artifact@v4
+        with:
+          name: macos-targz
+          path: "SlotBoardCraft-${{ github.ref_name }}-macOS.tar.gz"
+
       - name: Install create-dmg
         run: brew install create-dmg
 
@@ -119,5 +130,6 @@ jobs:
         with:
           files: |
             SlotBoardCraft-*-macOS.dmg
+            SlotBoardCraft-*-macOS.tar.gz
             SlotBoardCraft-*-Windows.exe
             SlotBoardCraft-*-Windows.zip
