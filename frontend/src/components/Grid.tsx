@@ -1,5 +1,5 @@
 // frontend/src/components/Grid.tsx
-import { useCallback, useMemo } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 import type { Grid as GridType, CursorInfo } from '../types'
 import { Cell, CELL_W, CELL_H, GAP } from './Cell'
 import { getThemeIcon, resolveGridIcons } from '../themes/themes'
@@ -33,7 +33,17 @@ export function Grid({
   const maxRows = Math.max(...layout)
   const containerWidth = layout.length * (CELL_W + GAP) - GAP
   const containerHeight = maxRows * (CELL_H + GAP) - GAP
-  const dynamicIcons = useMemo(() => resolveGridIcons(theme, grid), [theme, grid])
+  // 動態池分配要「鎖定」：id 一旦分配到圖示就不會因為盤面上其他格子變動而被換掉
+  // （否則重新掃描整個盤面時，新符號可能排到更前面，搶走舊符號原本的圖示）。
+  const [dynamicIcons, setDynamicIcons] = useState<Record<number, string>>({})
+  const prevThemeId = useRef(theme.id)
+  useEffect(() => {
+    setDynamicIcons((prev) => {
+      const base = prevThemeId.current === theme.id ? prev : {}
+      prevThemeId.current = theme.id
+      return resolveGridIcons(theme, grid, base)
+    })
+  }, [theme, grid])
 
   const isSelected = useCallback(
     (reel: number, row: number) =>

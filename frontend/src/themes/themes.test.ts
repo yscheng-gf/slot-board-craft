@@ -136,6 +136,28 @@ describe('resolveGridIcons', () => {
     const grid: Grid = [[cell(0), cell(85)]]
     expect(resolveGridIcons(theme, grid)).toEqual({ 85: '/pool-1.png' })
   })
+
+  it('傳入 previouslyAssigned 時，已經分配過的 id 不會被重新分配，即使它在新的盤面掃描中排到更後面', () => {
+    const theme = { id: 't', name: 't', icons: {}, dynamicPool: pool }
+    // 85 之前已經拿到 pool-1；現在盤面上 86 出現在 85 前面（例如使用者後來才在更前面的格子放 86）
+    const grid: Grid = [[cell(86), cell(85)]]
+    const resolved = resolveGridIcons(theme, grid, { 85: '/pool-1.png' })
+    expect(resolved).toEqual({ 85: '/pool-1.png', 86: '/pool-2.png' })
+  })
+
+  it('previouslyAssigned 已經用完整個池子時，新出現的 id 不會被分配', () => {
+    const theme = { id: 't', name: 't', icons: {}, dynamicPool: pool }
+    const grid: Grid = [[cell(85), cell(86), cell(87)]]
+    const resolved = resolveGridIcons(theme, grid, { 85: '/pool-1.png', 86: '/pool-2.png' })
+    expect(resolved).toEqual({ 85: '/pool-1.png', 86: '/pool-2.png' })
+    expect(resolved[87]).toBeUndefined()
+  })
+
+  it('不傳 previouslyAssigned 時行為不變，等同於從空物件開始', () => {
+    const theme = { id: 't', name: 't', icons: {}, dynamicPool: pool }
+    const grid: Grid = [[cell(85), cell(86)]]
+    expect(resolveGridIcons(theme, grid)).toEqual(resolveGridIcons(theme, grid, {}))
+  })
 })
 
 describe('THEMES', () => {
